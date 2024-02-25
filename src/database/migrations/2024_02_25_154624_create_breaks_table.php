@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateBreaksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('breaks', function (Blueprint $table) {
             /*カラム名:id, 型:bigint unsigned, PRIMARY KEY:〇 */
             $table->bigIncrements('id');
-            /*カラム名:name, 型:varchar(255), NOT NULL:〇 */
-            $table->string('name', 255)->nullable(false);
-            /*カラム名:email, 型:varchar(255), NOT NULL:〇 */
-            $table->string('email', 255)->unique(false);
-            /*カラム名:password, 型:varchar(255), NOT NULL:〇 */
-            $table->string('password', 255)->nullable(false);
+            /*カラム名:attendance_id, 型:bigint unsigned, NOT NULL:〇, FOREIGN KEY:attendances(id) */
+            $table->unsignedBigInteger('attendance_id')->nullable(false);
+            $table->foreign('attendance_id')->references('id')->on('attendances');
+            /*カラム名:break_duration, 型:time, NOT NULL:〇 */
+            $table->time('break_duration')->nullable(false);
+            /*カラム名:break_out_duration, 型:time, NOT NULL: */
+            $table->time('break_out_duration')->nullable();
             /*カラム名:created_at, 型:timestamp */
             $table->timestamp('created_at')->useCurrent()->nullable();
             /*カラム名:updated_at, 型:timestamp */
@@ -36,6 +37,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('breaks');
     }
 }
