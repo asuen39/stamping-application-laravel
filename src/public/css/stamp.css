@@ -1,0 +1,48 @@
+body {
+    background-color: #efefef;
+}
+
+.stamp__container {
+    max-width: 1280px;
+    margin: auto;
+}
+
+.stamp__title {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.stamp__button-content {
+    max-width: 780px;
+    margin: auto;
+}
+
+.stamp__button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.stamp__button-box {
+    width: 48%;
+}
+
+.stamp__button {
+    width: 100%;
+    height: 200px;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+button[type="submit"]:disabled {
+    color: rgba(000, 000, 000, 0.5);
+}
