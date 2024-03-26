@@ -27,6 +27,7 @@ class CreateBreaksTable extends Migration
             $table->timestamp('created_at')->useCurrent()->nullable();
             /*カラム名:updated_at, 型:timestamp */
             $table->timestamp('updated_at')->useCurrent()->nullable();
+            /* test */
         });
     }
 

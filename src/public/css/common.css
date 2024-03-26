@@ -37,6 +37,11 @@ main {
     width: 300px;
 }
 
+.header__nav-item a {
+    color: #000;
+    text-decoration: none;
+}
+
 .footer-bottom {
     position: fixed;
     bottom: 0;

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\StampController;
+use App\Http\Controllers\AttendanceController;
+use App\Models\Attendances;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,7 @@ Route::post('/workStart', [StampController::class, 'workStart'])->name('workStar
 Route::post('/workEnd', [StampController::class, 'workEnd'])->name('workEnd');
 Route::post('/breakStart', [StampController::class, 'breakStart'])->name('breakStart');
 Route::post('/breakEnd', [StampController::class, 'breakEnd'])->name('breakEnd');
+
+Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
+Route::get('/attendance/previous_day/{currentDay}', [AttendanceController::class, 'previousDay'])->name('previous_day');
+Route::get('/attendance/next_day/{currentDay}', [AttendanceController::class, 'nextDay'])->name('next_day');

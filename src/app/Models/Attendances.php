@@ -29,4 +29,10 @@ class Attendances extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function breaks()
+    {
+        //外部キー指定。デフォルトが間違った値になっていた為。
+        return $this->hasMany(Breaks::class, 'attendance_id');
+    }
 }

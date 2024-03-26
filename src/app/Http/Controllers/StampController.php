@@ -10,50 +10,24 @@ use Carbon\Carbon;
 class StampController extends Controller
 {
     /* 従業員打刻ページ表示 */
-    public function index()
+    public function index(Request $request)
     {
         // ログインしているユーザーのIDを取得
-        $userId = auth()->user()->id;
+        $userId = auth()->id();
 
-        // 直近の勤務記録を取得
-        $latestAttendance = Attendances::where('user_id', $userId)->latest()->first();
+        // セッションから勤務開始の打刻回数を取得
+        $isWorkStartedCount = $request->session()->get('work_start_count', 0);
 
-        // 勤務終了が登録されているかどうかをチェック
-        if ($latestAttendance) {
-            // 直近の勤務記録が存在する場合
-            if (!is_null($latestAttendance->clock_out_time)) {
-                // 勤務終了が登録されている場合
-                $isWorkEnded = true;
-            } else {
-                // 勤務終了が登録されていない場合
-                $isWorkEnded = false;
-            }
-        } else {
-            // 直近の勤務記録が存在しない場合
-            $isWorkEnded = false;
-        }
+        // 打刻回数が1以上の場合は、ボタンを無効にする
+        $isWorkStartedDisabled = $isWorkStartedCount > 0;
 
-        // 勤務開始ボタンが押されたかどうかをチェック
-        if ($latestAttendance && is_null($latestAttendance->clock_out_time)) {
-            // 直近の勤務記録が存在し、かつ勤務終了が登録されていない場合
-            $isWorkStarted = true;
-        } else {
-            // 直近の勤務記録が存在しないか、勤務終了が登録されている場合
-            $isWorkStarted = false;
-        }
-
-        // 休憩開始がされたかチェック。
-        $isBreakStarted = Breaks::where('attendance_id', $userId)->whereNotNull('break_duration')->whereNull('break_out_duration')->exists();
-
-        // 休憩終了ボタンが押されたかどうかをチェック
-        $isBreakEnded = !Breaks::where('attendance_id', $userId)
-            ->whereNotNull('break_duration')
-            ->whereNull('break_out_duration')
-            ->exists();
-
-        //ログイン後の画面表示
-        return view('stamp', compact('isWorkEnded', 'isWorkStarted', 'isBreakStarted', 'isBreakEnded'));
+        // ログイン後の画面表示&ビューに打刻回数とボタンの無効状態を渡す
+        return view('stamp')->with([
+            'isWorkStartedCount' => $isWorkStartedCount,
+            'isWorkStartedDisabled' => $isWorkStartedDisabled,
+        ]);
     }
+
 
     /* 勤務開始ボタンアクションの処理 */
     public function workStart(Request $request)
@@ -71,8 +45,22 @@ class StampController extends Controller
             'clock_in_time' => $time,
         ]);
 
-        /*JSON形式のレスポンスを作成。response()->json()は、Laravelの関数で、指定されたデータをJSON形式に変換してHTTPレスポンスとして送信します。第一引数には、レスポンスに含めるデータを連想配列として指定します。ここでは、'message' => 'success'という連想配列を指定しています。これは、レスポンスに含まれるキーが'message'で、その値が'success'であることを意味します。第二引数の200は、HTTPステータスコードを指定しています。200は「成功」を意味します。つまり、このコードは、レスポンスとして成功メッセージを含むJSONを返すことを表しています。 */
-        return redirect('/');
+        // 勤務開始ボタンを押したらカウントする。セッションから打刻回数を取得し、1を加える
+        $isWorkStartedCount = $request->session()->get('work_start_count', 0) + 1;
+        // セッションに打刻回数を保存
+        $request->session()->put('work_start_count', $isWorkStartedCount);
+
+        // 休憩ボタンの$isBreakStart を true に設定する
+        $isBreakStart = true;
+
+        // 勤務終了ボタンを押したので、$isWorkEnd を true に設定する
+        $isWorkEnd = true;
+
+        return redirect('/')->with([
+            'isWorkStartedCount' => $isWorkStartedCount,
+            'isBreakStart' => $isBreakStart,
+            'isWorkEnd' => $isWorkEnd,
+        ]);
     }
 
     /* 勤務終了 */
@@ -110,7 +98,7 @@ class StampController extends Controller
             ->first();
 
         if ($attendance) {
-            $attendanceId = $attendance->user_id; // Attendancesテーブルのuser_id
+            $attendanceId = $attendance->id; // Attendancesテーブルのuser_id
 
             /* 現在の時刻を取得 */
             $date = new Carbon();
@@ -125,28 +113,52 @@ class StampController extends Controller
             ]);
         }
 
-        return redirect('/');
+        // 休憩終了ボタンの$isBreakEnd をtrue に設定する
+        $isBreakEnd = true;
+
+        return redirect('/')->with([
+            'isBreakEnd' => $isBreakEnd,
+        ]);
     }
 
 
     /* 休憩終了 */
     public function breakEnd(Request $request)
     {
-        /* 現在の時刻を取得 */
-        $time = now()->toTimeString();
-
-        // ログイン中のユーザーのBreaksテーブル最後の打刻レコードを取得する
-        $breaks = Breaks::where('attendance_id', auth()->user()->id)
+        // 直近の勤務記録のIDを取得する
+        $latestAttendanceId = Attendances::where('user_id', auth()->user()->id)
             ->latest()
-            ->first();
+            ->value('id');
 
-        if ($breaks) {
-            $breaks->update(['break_out_duration' => $time]);
-        } else {
-            // 最初の打刻が行われていない場合はエラーを返すか、何かしらの処理を行う
-            return response()->json(['message' => 'No record found'], 404);
+        // 直近の勤務記録のIDが取得できた場合
+        if ($latestAttendanceId) {
+            // 直近の勤務記録に関連する最後の休憩レコードを取得する
+            $break = Breaks::where('attendance_id', $latestAttendanceId)
+                ->latest()
+                ->first();
+
+            // 直近の休憩レコードが取得できた場合
+            if ($break) {
+                // 現在の時刻を取得
+                $time = now()->toTimeString();
+
+                // 休憩終了時刻を更新
+                $break->update(['break_out_duration' => $time]);
+            } else {
+                // 直近の休憩レコードが存在しない場合はエラーを返すか、何かしらの処理を行う
+                return response()->json(['message' => 'No record found'], 404);
+            }
         }
 
-        return redirect('/');
+        // 勤務終了ボタンを押したので、$isWorkEnd を true に設定する
+        $isWorkEnd = true;
+
+        //休憩開始ボタンを再度実行可能にする。
+        $isBreakStart = true;
+
+        return redirect('/')->with([
+            'isWorkEnd' => $isWorkEnd,
+            'isBreakStart' => $isBreakStart,
+        ]);
     }
 }

@@ -32,8 +32,12 @@ class AuthenticatedSessionController extends Controller
     }
 
     //ログアウト処理
-    public function destroy()
+    public function destroy(Request $request)
     {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        $request->session()->forget('work_start_count'); // 打刻回数を削除
+
         Auth::logout();
 
         return redirect()->route('login');

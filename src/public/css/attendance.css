@@ -1,0 +1,119 @@
+body {
+    background-color: #efefef;
+}
+
+.attendance__content {
+    max-width: 1280px;
+    margin: auto;
+}
+
+.attendance__day {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 35%;
+    margin: auto;
+    padding: 50px 0;
+    text-align: center;
+    font-size: 30px;
+}
+
+.attendance__button {
+    width: 50px;
+    height: 100%;
+    border: 1px solid #0000ff;
+    background-color: #ffffff;
+}
+
+/*矢印左*/
+.dli-chevron-round-left {
+    display: inline-block;
+    vertical-align: middle;
+    color: #0000ff;
+    line-height: 1;
+    position: relative;
+    width: 0.5em;
+    height: 0.5em;
+    transform: translateX(25%) rotate(-135deg);
+}
+
+.dli-chevron-round-left::before,
+.dli-chevron-round-left::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+    border-radius: 0.1em;
+}
+
+.dli-chevron-round-left::before {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.1em;
+}
+
+.dli-chevron-round-left::after {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 0.1em;
+}
+
+/*矢印右*/
+.dli-chevron-round-right {
+    display: inline-block;
+    vertical-align: middle;
+    color: #0000ff;
+    line-height: 1;
+    position: relative;
+    width: 0.5em;
+    height: 0.5em;
+    transform: translateX(-25%) rotate(45deg);
+}
+
+.dli-chevron-round-right::before,
+.dli-chevron-round-right::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+    border-radius: 0.1em;
+}
+
+.dli-chevron-round-right::before {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.1em;
+}
+
+.dli-chevron-round-right::after {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 0.1em;
+}
+
+/* テーブル */
+.attendance__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.attendance__table-inner {
+    width: 100%;
+}
+
+.attendance__table-inner tr {
+    border-top: 1px solid #808080;
+}
+
+.attendance__table-inner td,
+th {
+    padding: 15px 0;
+    font-size: 20px;
+}
+
+/*ページネーション*/
+.pagination-links {
+    margin-top: 20px;
+}

@@ -8,6 +8,7 @@
     <title>勤怠打刻アプリケーション</title>
     <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     @yield('css')
 </head>
 
@@ -21,10 +22,10 @@
                     @if (Auth::check())
                     <ul class="header__nav">
                         <li class="header__nav-item">
-                            <a href="" class="header__nav__button">ホーム</a>
+                            <a href="/" class="header__nav__button">ホーム</a>
                         </li>
                         <li class="header__nav-item">
-                            <a href="" class="header__nav__button">日付一覧</a>
+                            <a href="/attendance" class="header__nav__button">日付一覧</a>
                         </li>
                         <li class="header__nav-item">
                             <form class="form" action="{{ route('logout') }}" method="post">
