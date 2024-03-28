@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Actions\Fortify\CreateNewUser;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistrationCompletedMail;
+use Illuminate\Support\Facades\URL;
 
 class RegisteredUserController extends Controller
 {
@@ -23,7 +26,11 @@ class RegisteredUserController extends Controller
         $createNewUserAction = app(CreatesNewUsers::class);
 
         // ユーザーを作成するアクション機能を呼び出してユーザーを登録
-        $createNewUserAction->create($request->all());
+        $user = $createNewUserAction->create($request->all());
+
+        // ユーザーにメールを送信
+        $loginUrl = URL::to('/login');
+        Mail::to($user->email)->send(new UserRegistrationCompletedMail($user, $loginUrl));
 
         // ログインページにリダイレクト
         return redirect()->route('login');
