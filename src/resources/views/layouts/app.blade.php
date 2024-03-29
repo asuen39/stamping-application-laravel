@@ -28,6 +28,9 @@
                             <a href="/attendance" class="header__nav__button">日付一覧</a>
                         </li>
                         <li class="header__nav-item">
+                            <a href="/mypage/user" class="header__nav__button">ユーザーページ</a>
+                        </li>
+                        <li class="header__nav-item">
                             <form class="form" action="{{ route('logout') }}" method="post">
                                 @csrf
                                 <button class="header__nav__button">ログアウト</button>

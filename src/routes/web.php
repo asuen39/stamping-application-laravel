@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\StampController;
 use App\Http\Controllers\AttendanceController;
 use App\Models\Attendances;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,8 @@ Route::post('/breakEnd', [StampController::class, 'breakEnd'])->name('breakEnd')
 Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
 Route::get('/attendance/previous_day/{currentDay}', [AttendanceController::class, 'previousDay'])->name('previous_day');
 Route::get('/attendance/next_day/{currentDay}', [AttendanceController::class, 'nextDay'])->name('next_day');
+
+
+Route::get('/mypage/user', [UserController::class, 'index'])->name('user');
+Route::get('/user-attendance-list', [UserController::class, 'userAttendanceList'])->name('userAttendanceList');
+Route::post('/user-attendance-list', [UserController::class, 'userAttendanceList'])->name('userAttendanceList');

@@ -34,12 +34,18 @@ main {
 .header__nav {
     display: flex;
     justify-content: space-between;
-    width: 300px;
+    align-items: center;
+    width: 450px;
+    margin: auto;
 }
 
 .header__nav-item a {
     color: #000;
     text-decoration: none;
+}
+
+.header__nav__button {
+    vertical-align: text-top;
 }
 
 .footer-bottom {
