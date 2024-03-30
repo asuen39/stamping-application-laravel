@@ -17,6 +17,8 @@
                     <th>日付</th>
                     <th>勤務開始</th>
                     <th>勤務終了</th>
+                    <th>休憩時間</th>
+                    <th>勤務時間</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +27,14 @@
                     <td>{{ $userAttendancesView->date }}</td>
                     <td>{{ $userAttendancesView->clock_in_time->format('H:i:s') }}</td>
                     <td>{{ $userAttendancesView->clock_out_time->format('H:i:s') }}</td>
+                    <td>
+                        @if(isset($convertedBreakDurations[$userAttendancesView->id]))
+                        {{ $convertedBreakDurations[$userAttendancesView->id] }}
+                        @endif
+                    </td>
+                    <td>
+                        {{ $userAttendancesView->work_duration }}
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
