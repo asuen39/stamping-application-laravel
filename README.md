@@ -70,6 +70,7 @@
 - php artisan db:seed　テーブルへデータの挿入
 
 ## 備考
+- Mailhog: http://localhost:8025/
 - aws ※S3、EC2、RDSの機能だけ用意しました。<br>
 ・S3<br>![S3-image](https://github.com/asuen39/stamping-application-laravel/assets/68514566/dde56a8a-ea6b-4b0c-b7a1-b96c327ec33d)
 ・EC2<br>![EC2-image](https://github.com/asuen39/stamping-application-laravel/assets/68514566/b861aca7-82c4-4d06-b03f-748fa04d121d)
