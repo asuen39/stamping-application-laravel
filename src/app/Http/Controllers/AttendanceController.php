@@ -21,6 +21,12 @@ class AttendanceController extends Controller
     /* 全従業員打刻ページ表示 */
     public function index()
     {
+        //ログイン状態のチェック
+        if (!Auth::check()) {
+            // ログインしていない場合はログイン画面にリダイレクト
+            return redirect()->route('login');
+        }
+
         //日付と時間帯表示
         $date = Carbon::now();
 
@@ -33,6 +39,12 @@ class AttendanceController extends Controller
 
     public function previousDay(Request $request)
     {
+        //ログイン状態のチェック
+        if (!Auth::check()) {
+            // ログインしていない場合はログイン画面にリダイレクト
+            return redirect()->route('login');
+        }
+
         $currentDay = $request->route('currentDay');
         $previousDay = Carbon::parse($currentDay)->subDay()->toDateString();
 
@@ -46,6 +58,12 @@ class AttendanceController extends Controller
 
     public function nextDay(Request $request)
     {
+        //ログイン状態のチェック
+        if (!Auth::check()) {
+            // ログインしていない場合はログイン画面にリダイレクト
+            return redirect()->route('login');
+        }
+
         $currentDay = $request->route('currentDay');
         $nextDay = Carbon::parse($currentDay)->addDay()->toDateString();
 

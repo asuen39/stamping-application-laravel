@@ -8,11 +8,18 @@ use App\Models\Breaks;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index()
     {
+        //ログイン状態のチェック
+        if (!Auth::check()) {
+            // ログインしていない場合はログイン画面にリダイレクト
+            return redirect()->route('login');
+        }
+
         // データベースからユーザーデータを取得
         //dateカラムを起点として、現在の日付と参照してデータを取り出すようにする。
         $userValues = User::all();
@@ -22,6 +29,12 @@ class UserController extends Controller
 
     public function userAttendanceList(Request $request)
     {
+        //ログイン状態のチェック
+        if (!Auth::check()) {
+            // ログインしていない場合はログイン画面にリダイレクト
+            return redirect()->route('login');
+        }
+
         $userId = $request->input('userId');
 
         // ユーザーIDに基づいてユーザーの勤務表データを取得し、ページネーションを適用

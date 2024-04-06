@@ -6,14 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\Attendances;
 use App\Models\Breaks;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class StampController extends Controller
 {
     /* 従業員打刻ページ表示 */
     public function index(Request $request)
     {
-        // ログインしているユーザーのIDを取得
-        $userId = auth()->id();
+        //ログイン状態のチェック
+        if (!Auth::check()) {
+            // ログインしていない場合はログイン画面にリダイレクト
+            return redirect()->route('login');
+        }
 
         // セッションから勤務開始の打刻回数を取得
         $isWorkStartedCount = $request->session()->get('work_start_count', 0);
