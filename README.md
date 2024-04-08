@@ -46,7 +46,7 @@
 
 
 ## ER図
-
+![syokyu](https://github.com/asuen39/stamping-application-laravel/assets/68514566/55fa7c98-95d9-4ad9-8f9a-9e9f29969f47)
 
 
 ## 環境構築
@@ -71,4 +71,7 @@
 ## 備考
 - Mailhog: http://localhost:8025/
 - aws ※S3、EC2、RDSの機能だけ用意しました。<br>
+・S3<br>![S3-image](https://github.com/asuen39/stamping-application-laravel/assets/68514566/d037162a-64b2-4edb-bd56-89f45e703982)
+・EC2<br>![EC2-image](https://github.com/asuen39/stamping-application-laravel/assets/68514566/7abd6272-0bde-4896-910c-a775f32808e3)
+・RDS<br>![RDS-image](https://github.com/asuen39/stamping-application-laravel/assets/68514566/3487d8c8-1034-4cde-98a4-406362ec39df)
 
