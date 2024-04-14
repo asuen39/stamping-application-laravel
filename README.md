@@ -15,7 +15,7 @@
 
 ## 他のリポジトリ
 - git clone リンク: git@github.com:asuen39/stamping-application-laravel.git</a>
-- aws ec2: [http://18.183.173.15/](http://54.249.98.89/)
+- aws ec2: http://54.249.98.89/register
 
 ## 機能一覧
 - 会員登録機能<br>
