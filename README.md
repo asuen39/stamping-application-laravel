@@ -70,6 +70,7 @@
 
 ## 備考
 - Mailhog: http://localhost:8025/
+  ※EC2では機能しませんが、LocalHostなら機能します。
 - aws ※S3、EC2、RDSの機能だけ用意しました。<br>
 ・S3<br>![S3-image](https://github.com/asuen39/stamping-application-laravel/assets/68514566/d037162a-64b2-4edb-bd56-89f45e703982)
 ・EC2<br>![EC2-image](https://github.com/asuen39/stamping-application-laravel/assets/68514566/7abd6272-0bde-4896-910c-a775f32808e3)
